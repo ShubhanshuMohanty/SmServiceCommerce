@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using SmServiceCommerce.Models;
 
-namespace SmServiceCommerce.Controllers
+namespace SmServiceCommerce.Areas.Customer.Controllers
 {
     public class HomeController : Controller
     {
