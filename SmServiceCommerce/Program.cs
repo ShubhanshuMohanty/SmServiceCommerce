@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SmServiceCommerce.DataAccess.Data;
+using SmServiceCommerce.DataAccess.Repository;
+using SmServiceCommerce.DataAccess.Repository.IRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +10,7 @@ builder.Services.AddControllersWithViews();
 //DbConnection
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
