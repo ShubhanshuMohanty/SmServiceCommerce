@@ -66,6 +66,13 @@ namespace SmServiceCommerce.Areas.Admin.Controllers
         }
 
         #region Api calls
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            IEnumerable<Service> serviceList = _unitOfWork.Service.GetAll();
+            return Json(new { data = serviceList });
+        }
         [HttpDelete]
         public IActionResult Delete(int? id)
         {

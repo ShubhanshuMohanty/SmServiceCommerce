@@ -13,7 +13,7 @@
             </a>
         </div>
     </div>
-    <table class="table table-bordered table-striped table-hover">
+    <table class="table table-bordered table-striped table-hover" id="tblData">
         <thead class="table-dark">
             <tr>
                 <th>ID</th>
@@ -21,23 +21,7 @@
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody>
-            @foreach (var service in Model)
-            {
-                <tr>
-                    <td>@service.Id</td>
-                    <td>@service.ServiceName</td>
-                    <td>
-                        <a asp-controller="Service" asp-action="Upsert" asp-route-id="@service.Id" class="btn btn-primary mx-2">
-                            <i class="fas fa-edit"></i> Edit
-                        </a>
-                        <button onclick="deleteData(@service.Id)" class="btn btn-sm btn-danger">
-                            <i class="fas fa-trash-alt"></i> Delete
-                        </button>
-                    </td>
-                </tr>
-            }
-        </tbody>
+        
     </table>
 </div>
 
@@ -71,4 +55,6 @@
             
         }
     </script>
+    <script src="~/js/service.js"></script>
 }
+
