@@ -79,12 +79,12 @@ namespace SmServiceCommerce.Areas.Admin.Controllers
             var service = _unitOfWork.Service.Get(i => i.Id == id);
             if (service == null)
             {
-                TempData["error"] = "Service not found";
+                //TempData["error"] = "Service not found";
                 return Json(new { success = false, message = "Error while deleting" });
             }
             _unitOfWork.Service.Remove(service);
             _unitOfWork.Save();
-            TempData["success"] = "Service deleted successfully";
+            //TempData["success"] = "Service deleted successfully";
             return Json(new { success = true, message = "Service deleted successfully" });
         }
 

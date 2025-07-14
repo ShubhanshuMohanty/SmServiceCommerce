@@ -26,35 +26,6 @@
 </div>
 
 @section Scripts{
-    <script>
-        async function deleteData(id)
-        {
-            const data=await fetch(`/Admin/Service/Delete/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            if(data.ok)
-            {
-                const response = await data.json();
-                if(response.success)
-                {
-                    toastr.success(response.message);
-                    location.reload();
-                }
-                else
-                {
-                    toastr.error(response.message);
-                }
-            }
-            else
-            {
-                toastr.error("An error occurred while deleting the service.");
-            }
-            
-        }
-    </script>
     <script src="~/js/service.js"></script>
 }
 
