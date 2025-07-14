@@ -1,5 +1,74 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<Service>
 @{
+    ViewData["Title"] = "Service Management";
+}
+<div class="container mt-5">
+    <div class="row pb-3">
+        <div class="col-6 ">
+            <h2>Service List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Service" asp-action="Upsert" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i>  Create New Category
+            </a>
+        </div>
+    </div>
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Service Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var service in Model)
+            {
+                <tr>
+                    <td>@service.Id</td>
+                    <td>@service.ServiceName</td>
+                    <td>
+                        <a asp-controller="Service" asp-action="Upsert" asp-route-id="@service.Id" class="btn btn-primary mx-2">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <button onclick="deleteData(@service.Id)" class="btn btn-sm btn-danger">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+    <script>
+        async function deleteData(id)
+        {
+            const data=await fetch(`/Admin/Service/Delete/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if(data.ok)
+            {
+                const response = await data.json();
+                if(response.success)
+                {
+                    toastr.success(response.message);
+                    location.reload();
+                }
+                else
+                {
+                    toastr.error(response.message);
+                }
+            }
+            else
+            {
+                toastr.error("An error occurred while deleting the service.");
+            }
+            
+        }
+    </script>
 }

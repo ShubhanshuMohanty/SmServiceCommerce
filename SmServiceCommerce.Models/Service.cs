@@ -9,7 +9,7 @@ namespace SmServiceCommerce.Models
 {
     public class Service
     {
-        [Key]
+        [Key]        
         public int Id { get; set; }
         [Required]
         [MaxLength(100)]

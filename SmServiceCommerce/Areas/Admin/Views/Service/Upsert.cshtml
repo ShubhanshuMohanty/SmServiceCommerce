@@ -1,0 +1,27 @@
+﻿@model Service
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i>@(Model.Id==0? "Create": "Update") Service</h5>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <input asp-for="Id" hidden/>
+                <div class="mb-3">
+                    <label asp-for="ServiceName" class="form-label"></label>
+                    <input asp-for="ServiceName" class="form-control border-0 shadow">
+                    <span asp-validation-for="ServiceName" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save me-1"></i> Save
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
