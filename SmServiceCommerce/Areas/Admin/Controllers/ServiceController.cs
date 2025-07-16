@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SmServiceCommerce.DataAccess.Data;
 using SmServiceCommerce.DataAccess.Repository.IRepository;
 using SmServiceCommerce.Models;
+using SmServiceCommerce.Utility;
 
 namespace SmServiceCommerce.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
     public class ServiceController : Controller
     {
         //private readonly ApplicationDbContext _db;

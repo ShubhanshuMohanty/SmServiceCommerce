@@ -19,7 +19,10 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Mono.TextTemplating;
+using SmServiceCommerce.DataAccess.Data;
 using SmServiceCommerce.Models;
 using SmServiceCommerce.Utility;
 
@@ -34,6 +37,7 @@ namespace SmServiceCommerce.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly ApplicationDbContext _context;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -41,6 +45,7 @@ namespace SmServiceCommerce.Areas.Identity.Pages.Account
             RoleManager<IdentityRole> roleManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
+            ApplicationDbContext context,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -49,6 +54,7 @@ namespace SmServiceCommerce.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
             _emailSender = emailSender;
         }
 
@@ -108,7 +114,13 @@ namespace SmServiceCommerce.Areas.Identity.Pages.Account
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
 
-
+            [Required]
+            public string Name { get; set; }
+            public string City { get; set; }
+            public string State { get; set; }
+            public int? ServiceId { get; set; }
+            public string PhoneNumber { get; set; }
+            public IEnumerable<SelectListItem>? ServiceList { get; set; }   
         }
 
 
@@ -128,7 +140,14 @@ namespace SmServiceCommerce.Areas.Identity.Pages.Account
                 {
                     Text = i,
                     Value = i
-                })
+                }),
+                //service list
+                ServiceList = _context.services
+                  .Select(s => new SelectListItem
+                  {
+                      Value = s.Id.ToString(),
+                      Text = s.ServiceName
+                  }).ToList()
             };
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -144,6 +163,11 @@ namespace SmServiceCommerce.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                user.Name = Input.Name;
+                user.City = Input.City;
+                user.State = Input.State;
+                user.ServiceId = Input.ServiceId;
+                user.PhoneNumber = Input.PhoneNumber;
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
