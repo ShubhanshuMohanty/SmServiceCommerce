@@ -5,6 +5,7 @@ using SmServiceCommerce.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using SmServiceCommerce.Utility;
+using SmServiceCommerce.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
