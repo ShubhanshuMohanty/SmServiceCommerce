@@ -38,7 +38,11 @@
                             <label asp-for="Input.Name"></label>
                             <span asp-validation-for="Input.Name" class="text-danger"></span>
                         </div>
-
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Full Name" />
+                            <label asp-for="Input.PhoneNumber"></label>
+                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                        </div>
                         <div class="form-floating mb-3">
                             <input asp-for="Input.City" class="form-control" placeholder="City" />
                             <label asp-for="Input.City"></label>
