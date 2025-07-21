@@ -1,0 +1,41 @@
+﻿
+<div class="container mt-4" id="searchContainer" style="display: none;">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card border-0 shadow rounded-4">
+                <div class="card-header bg-primary text-white rounded-top-4 d-flex align-items-center">
+                    <i class="fas fa-search me-2"></i>
+                    <h5 class="mb-0">Search Services</h5>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+                    <form method="get" asp-controller="Service" asp-action="SearchResult">
+                        <div class="row g-3">
+                            <!-- Service Name Input -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">
+                                    <i class="fas fa-cogs me-1 text-primary"></i>Service Name
+                                </label>
+                                <input type="text" name="service" class="form-control shadow-sm rounded-pill px-3" placeholder="Enter service name" />
+                            </div>
+
+                            <!-- Location Input -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">
+                                    <i class="fas fa-map-marker-alt me-1 text-primary"></i>Location
+                                </label>
+                                <input type="text" name="location" class="form-control shadow-sm rounded-pill px-3" placeholder="Enter location" />
+                            </div>
+                        </div>
+
+                        <!-- Search Button -->
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm">
+                                <i class="fas fa-search me-2"></i>Search Now
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

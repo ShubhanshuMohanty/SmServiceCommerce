@@ -29,6 +29,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item">
+                            <button class="btn btn-outline-primary rounded-pill me-2" onclick="toggleSearch()">
+                                <i class="fas fa-search me-2"></i>Search
+                            </button>
+                        </li>
                         @if (User.IsInRole(SD.Role_Employee) || User.IsInRole(SD.Role_Admin))
                         {
                             <li class="nav-item dropdown">
@@ -49,6 +54,7 @@
         </nav>
     </header>
     <div class="container">
+        @await Component.InvokeAsync("SearchCard")
         <main role="main" class="pb-3">
             <partial name="_Notification" />
             @RenderBody()
@@ -66,6 +72,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="//cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js" asp-append-version="true"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+                function toggleSearch() {
+            const card = document.getElementById("searchContainer");
+            if (!card) return;
+            if (card.style.display === "none" || card.style.display === "") {
+                card.style.display = "block";
+                card.scrollIntoView({ behavior: "smooth" });
+            } else {
+                card.style.display = "none";
+            }
+        }
+
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
