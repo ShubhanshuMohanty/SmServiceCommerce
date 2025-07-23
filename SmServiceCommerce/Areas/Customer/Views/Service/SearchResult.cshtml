@@ -1,0 +1,52 @@
+﻿@model List<Service>
+<div class="container py-5">
+    <h2 class="mb-4">Available Services</h2>
+
+    <!-- Filter Options -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <select class="form-select">
+                <option selected>Filter by Price</option>
+                <option value="low">Low to High</option>
+                <option value="high">High to Low</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select class="form-select">
+                <option selected>Filter by Rating</option>
+                <option value="high">High to Low</option>
+                <option value="low">Low to High</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Card List -->
+    <div class="row g-4">
+        <!-- Single Card -->
+        @foreach(var ser in Model)
+        {
+            <div class="col-md-4">
+                <div class="card service-card p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="profile-circle me-3">A</div>
+                        <div>
+                            <h5 class="mb-0 fw-semibold">Ankit Sharma</h5>
+                            <small class="text-muted">Electrician • 5 yrs experience</small>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <span class="info-label"><i class="fas fa-star me-1 text-warning"></i>Rating:</span>
+                        <span class="rating">4.5</span> <small class="text-muted">(120 reviews)</small>
+                    </div>
+                    <div class="mb-3">
+                        <span class="info-label"><i class="fas fa-rupee-sign me-1 text-dark"></i>Fee:</span>
+                        <span class="fw-semibold text-success">499</span>
+                    </div>
+                    <button class="btn book-btn w-100">
+                        <i class="fas fa-calendar-check me-2"></i>Book Service
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
