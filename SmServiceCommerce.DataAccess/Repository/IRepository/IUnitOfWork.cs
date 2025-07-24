@@ -9,6 +9,7 @@ namespace SmServiceCommerce.DataAccess.Repository.IRepository
     public interface IUnitOfWork
     {
         IServiceRepository Service { get; }
+        IApplicationUserRepository ApplicationUser { get; }
         void Save();
     }
 }

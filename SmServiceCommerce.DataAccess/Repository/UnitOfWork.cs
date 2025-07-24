@@ -12,10 +12,12 @@ namespace SmServiceCommerce.DataAccess.Repository
     {
         private readonly ApplicationDbContext _db;
         public IServiceRepository Service { get; private set; }
+        public IApplicationUserRepository ApplicationUser { get; private set; }
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
             Service = new ServiceRepository(_db);
+            ApplicationUser = new ApplicationUserRepository(_db);
         }
         public void Save()
         {
