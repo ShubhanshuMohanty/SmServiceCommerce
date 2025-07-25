@@ -120,7 +120,10 @@ namespace SmServiceCommerce.Areas.Identity.Pages.Account
             public string State { get; set; }
             public int? ServiceId { get; set; }
             public string PhoneNumber { get; set; }
-            public IEnumerable<SelectListItem>? ServiceList { get; set; }   
+            public IEnumerable<SelectListItem>? ServiceList { get; set; }
+            public float Experience { get; set; }
+            public string? Description { get; set; }
+            public int ServiceFee { get; set; }
         }
 
 
@@ -173,6 +176,19 @@ namespace SmServiceCommerce.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+                    //
+                    if(Input.Role==SD.Role_Company)
+                    {
+                        ServiceProviderInfo serviceProviderInfo = new ServiceProviderInfo()
+                        {
+                            Description = Input.Description,
+                            ServiceFee = Input.ServiceFee,
+                            Experience = Input.Experience,
+                            ApplicationUserId = user.Id,
+                        };
+                        _context.ServiceProviders.Add(serviceProviderInfo);
+                    }
+                    
                     //role
                     if (!String.IsNullOrEmpty(Input.Role))
                     {
@@ -182,7 +198,7 @@ namespace SmServiceCommerce.Areas.Identity.Pages.Account
                     {
                         await _userManager.AddToRoleAsync(user, SD.Role_Customer);
                     }
-
+                    await _context.SaveChangesAsync();
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
