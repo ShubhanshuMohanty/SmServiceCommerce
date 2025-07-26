@@ -20,6 +20,7 @@ namespace SmServiceCommerce.DataAccess.Data
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Availability> Availability { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<ServiceProviderInfo> ServiceProviders { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
