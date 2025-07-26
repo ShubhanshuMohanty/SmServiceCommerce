@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.7" />
@@ -27,6 +23,13 @@
     <ProjectReference Include="..\SmServiceCommerce.DataAccess\SmServiceCommerce.DataAccess.csproj" />
     <ProjectReference Include="..\SmServiceCommerce.Models\SmServiceCommerce.Models.csproj" />
     <ProjectReference Include="..\SmServiceCommerce.Utility\SmServiceCommerce.Utility.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\ServiceProvider\Controllers\" />
+    <Folder Include="Areas\ServiceProvider\Data\" />
+    <Folder Include="Areas\ServiceProvider\Models\" />
+    <Folder Include="Areas\ServiceProvider\Views\" />
   </ItemGroup>
 
 </Project>
