@@ -22,11 +22,12 @@ namespace SmServiceCommerce.Models
         public ApplicationUser ServiceProvider { get; set; } = null!;
 
         [Required]
-        public DateTime BookingTime { get; set; } // start time
-
+        public DateOnly BookingDate { get; set; } 
         [Required]
-        public DateTime EndTime { get; set; }
+        public TimeOnly BookingTime { get; set; } 
 
+        [MaxLength(500)]
+        public string? Notes { get; set; } 
         [Required]
         [MaxLength(50)]
         public string Status { get; set; } = "Pending"; // e.g. Pending, Confirmed, Cancelled
