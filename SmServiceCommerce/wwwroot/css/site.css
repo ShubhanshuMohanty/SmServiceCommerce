@@ -874,3 +874,45 @@ body {
     text-decoration: none;
     display: block;
 }
+
+/*dashboard layout*/
+.dashboard-layout {
+    display: flex;
+}
+
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    background: linear-gradient(145deg, #f0f4f8, #e2e8f0);
+    padding: 25px 20px;
+    overflow-y: auto;
+    position: sticky;
+    top: 0;
+    box-shadow: 20px 20px 60px #d1d9e6, -20px -20px 60px #ffffff;
+/*    border-radius: 0 25px 25px 0;*/
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.main-content {
+    flex: 1;
+    padding: 40px;
+    min-height: 100vh;
+}
+
+.dash-nav-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: #333;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+    .dash-nav-link:hover {
+        background: #e0e0e0;
+    }
+
+    .dash-nav-link i {
+        margin-right: 10px;
+    }
