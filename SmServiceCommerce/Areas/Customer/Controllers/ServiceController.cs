@@ -34,6 +34,13 @@ namespace SmServiceCommerce.Areas.Customer.Controllers
             return View(serviceProviderInfo);
         }
 
+        public IActionResult BookingHistory()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            List<Booking> bookingHistory = _unitOfWork.Booking.GetAll(u => u.ApplicationUserId == userId, includeProperties: "ServiceProvider,ServiceProvider.Service").ToList();
+            return View(bookingHistory);
+        }
         [HttpPost]
         public IActionResult BookService(BookingVM bookingVM)
         {
@@ -56,6 +63,7 @@ namespace SmServiceCommerce.Areas.Customer.Controllers
             }
             _unitOfWork.Booking.Add(booking);
             _unitOfWork.Save();
+            TempData["success"] = "Booking created successfully";
             return RedirectToAction("Index", "Home");
 
         }
