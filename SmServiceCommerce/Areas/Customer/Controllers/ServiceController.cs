@@ -39,7 +39,28 @@ namespace SmServiceCommerce.Areas.Customer.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             List<Booking> bookingHistory = _unitOfWork.Booking.GetAll(u => u.ApplicationUserId == userId, includeProperties: "ServiceProvider,ServiceProvider.Service").ToList();
-            return View(bookingHistory);
+
+            var serviceProviderIds = bookingHistory.Select(b => b.ServiceProviderId).Distinct().ToList();
+
+            var providerInfos = _unitOfWork.ServiceProviderInfo
+                .GetAll(info => serviceProviderIds.Contains(info.ApplicationUserId)).ToList();
+
+            var items = bookingHistory.Select(b => new BookingHistoryItemVM
+            {
+                Booking = b,
+                serviceProviderInfo = providerInfos.FirstOrDefault(pi => pi.ApplicationUserId == b.ServiceProviderId)
+            }).ToList();
+
+            BookingHistoryVM viewModel = new BookingHistoryVM
+            {
+                Items = items,
+                totalBookingNumber = bookingHistory.Count,
+                totalConfirmBookingNumber = bookingHistory.Count(b => b.Status == "Confirmed"),
+                totalPendingBookingNumber = bookingHistory.Count(b => b.Status == "Pending"),
+                totalCompleteBookingNumber = bookingHistory.Count(b => b.Status == "Completed"),
+                totalCancelBookingNumber = bookingHistory.Count(b => b.Status == "Cancelled")
+            };
+            return View(viewModel);
         }
         [HttpPost]
         public IActionResult BookService(BookingVM bookingVM)

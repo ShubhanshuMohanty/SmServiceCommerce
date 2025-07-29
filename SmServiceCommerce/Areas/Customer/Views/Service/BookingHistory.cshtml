@@ -1,5 +1,4 @@
-﻿@model List<Booking>
-
+﻿@model BookingHistoryVM
 <div class="container-fluid py-4">
     <!-- Header -->
     <div class="row mb-4">
@@ -11,7 +10,7 @@
                         <p class="mb-0 opacity-75">Track all your service bookings</p>
                     </div>
                     <div class="text-end">
-                        <div class="history-stats-number">12</div>
+                        <div class="history-stats-number">@Model.totalBookingNumber</div>
                         <small>Total Bookings</small>
                     </div>
                 </div>
@@ -23,25 +22,25 @@
     <div class="row mb-4">
         <div class="col-md-3 col-6 mb-3">
             <div class="history-neumorphic-card history-stats-card">
-                <div class="history-stats-number text-success">8</div>
+                <div class="history-stats-number text-success">@Model.totalCompleteBookingNumber</div>
                 <div class="text-muted">Completed</div>
             </div>
         </div>
         <div class="col-md-3 col-6 mb-3">
             <div class="history-neumorphic-card history-stats-card">
-                <div class="history-stats-number text-warning">2</div>
+                <div class="history-stats-number text-warning">@Model.totalPendingBookingNumber</div>
                 <div class="text-muted">Pending</div>
             </div>
         </div>
         <div class="col-md-3 col-6 mb-3">
             <div class="history-neumorphic-card history-stats-card">
-                <div class="history-stats-number text-primary">1</div>
+                <div class="history-stats-number text-primary">@Model.totalConfirmBookingNumber</div>
                 <div class="text-muted">Confirmed</div>
             </div>
         </div>
         <div class="col-md-3 col-6 mb-3">
             <div class="history-neumorphic-card history-stats-card">
-                <div class="history-stats-number text-danger">1</div>
+                <div class="history-stats-number text-danger">@Model.totalCancelBookingNumber</div>
                 <div class="text-muted">Cancelled</div>
             </div>
         </div>
@@ -66,7 +65,7 @@
     <!-- Booking Cards -->
     <div class="row">
         <!-- Repeat this block for each booking -->
-        @foreach(var data in Model)
+        @foreach(var data in Model.Items)
         {
             <div class="col-md-6 col-xl-4 mb-4">
                 <div class="history-neumorphic-card p-4 h-100">
@@ -74,22 +73,22 @@
                         <div class="history-service-icon history-neumorphic-inset me-3">
                             <i class="fas fa-broom"></i>
                         </div>
-                        <span class="history-status-badge history-status-@data.Status.ToLower()">@data.Status</span>
+                        <span class="history-status-badge history-status-@data.Booking?.Status.ToLower()">@data?.Booking?.Status</span>
                     </div>
-                    <h5 class="mb-2 text-primary">@data?.ServiceProvider?.Service?.ServiceName</h5>
-                    <p class="mb-2 text-secondary"><i class="fas fa-user me-1"></i>@data?.ServiceProvider?.Name</p>
+                    <h5 class="mb-2 text-primary">@data?.Booking?.ServiceProvider?.Service?.ServiceName</h5>
+                    <p class="mb-2 text-secondary"><i class="fas fa-user me-1"></i>@data?.Booking?.ServiceProvider?.Name</p>
                     <div class="row mb-3">
                         <div class="col-6">
                             <small class="text-muted">Date</small>
-                            <div class="fw-semibold"><i class="fas fa-calendar me-1"></i>@data?.BookingDate</div>
+                            <div class="fw-semibold"><i class="fas fa-calendar me-1"></i>@data?.Booking?.BookingDate</div>
                         </div>
                         <div class="col-6">
                             <small class="text-muted">Time</small>
-                            <div class="fw-semibold"><i class="fas fa-clock me-1"></i>@data?.BookingTime</div>
+                            <div class="fw-semibold"><i class="fas fa-clock me-1"></i>@data?.Booking?.BookingTime</div>
                         </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
-                        <div class="fw-bold text-success fs-5">₹1,500</div>
+                        <div class="fw-bold text-success fs-5">₹@data?.serviceProviderInfo?.ServiceFee</div>
                         @* <button class="btn btn-sm history-filter-btn"><i class="fas fa-eye me-1"></i>View</button> *@
                     </div>
                 </div>
