@@ -1,4 +1,32 @@
 ﻿@model BookingHistoryVM
+@{
+    var status = Context.Request.Query["status"];
+    string Completed = "";
+    string Pending = "";
+    string Confirmed = "";
+    string Cancelled = "";
+    var All = "";
+
+    switch (status)
+    {
+        case "Completed":
+            Completed = "history-active";
+            break;
+        case "Pending":
+            Pending = "history-active";
+            break;
+        case "Confirmed":
+            Confirmed = "history-active";
+            break;
+        case "Cancelled":
+            Cancelled = "history-active";
+            break;
+        default:
+            All = "history-active";
+            break;
+    }
+
+}
 <div class="container-fluid py-4">
     <!-- Header -->
     <div class="row mb-4">
@@ -48,16 +76,37 @@
 
     <!-- Search and Filter -->
     <div class="row mb-4">
-        <div class="col-md-6 mb-3">
-            <input type="text" class="form-control history-search-box" placeholder="Search by service provider or service type...">
-        </div>
+        @* <div class="col-md-6 mb-3"> *@
+        @*     <input type="text" class="form-control history-search-box" placeholder="Search by service provider or service type..."> *@
+        @* </div> *@
         <div class="col-md-6 mb-3">
             <div class="d-flex gap-2 flex-wrap">
-                <button class="history-filter-btn">All</button>
-                <button class="history-filter-btn">Completed</button>
-                <button class="history-filter-btn">Pending</button>
-                <button class="history-filter-btn">Confirmed</button>
-                <button class="history-filter-btn">Cancelled</button>
+                <button class="history-filter-btn @All">
+                    <a asp-controller="Service" asp-action="BookingHistory" asp-route-status="All">
+                        All
+                    </a>
+                </button>
+                <button class="history-filter-btn @Completed">
+                    <a asp-controller="Service" asp-action="BookingHistory" asp-route-status="Completed">
+                        Completed
+                    </a>
+                </button>
+                <button class="history-filter-btn @Pending">
+                    <a asp-controller="Service" asp-action="BookingHistory" asp-route-status="Pending">
+                        Pending
+                    </a>
+                </button>
+                <button class="history-filter-btn @Confirmed">
+                    <a asp-controller="Service" asp-action="BookingHistory" asp-route-status="Confirmed">
+                        Confirmed
+                    </a>
+                </button>
+                <button class="history-filter-btn @Cancelled">
+                    <a asp-controller="Service" asp-action="BookingHistory" asp-route-status="Cancelled">
+                        Cancelled
+                    </a>
+                </button>
+
             </div>
         </div>
     </div>
@@ -89,7 +138,36 @@
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="fw-bold text-success fs-5">₹@data?.serviceProviderInfo?.ServiceFee</div>
-                        @* <button class="btn btn-sm history-filter-btn"><i class="fas fa-eye me-1"></i>View</button> *@
+                        @if (data?.Booking?.Status != "Cancelled" && data?.Booking?.Status != "Completed")
+                        {
+                            <button class="btn btn-sm history-filter-btn" data-bs-toggle="modal" data-bs-target="#serviceModal-@data?.Booking?.Id"><i class="fas fa-eye me-1"></i>View</button>
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="serviceModal-@data?.Booking?.Id" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content bookingview-neumorphism-card">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title w-100 text-center" id="serviceModalLabel">Service Actions</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <button class="btn btn-danger bookingview-btn-action">
+                                <a asp-controller="Service" asp-action="CancelService" asp-route-id="@data?.Booking?.Id">
+                                    Cancel Service
+                                </a>
+                            </button>
+                            @if (data?.Booking?.Status != "Pending")
+                            {
+                                <button class="btn btn-success bookingview-btn-action">
+                                    <a asp-controller="Service" asp-action="CompleteService" asp-route-id="@data?.Booking?.Id">
+                                        Mark as Complete
+                                    </a>
+                                </button>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
@@ -97,3 +175,4 @@
         <!-- Add more cards below similarly... -->
     </div>
 </div>
+

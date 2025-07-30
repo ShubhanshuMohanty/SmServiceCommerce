@@ -34,11 +34,19 @@ namespace SmServiceCommerce.Areas.Customer.Controllers
             return View(serviceProviderInfo);
         }
 
-        public IActionResult BookingHistory()
+        public IActionResult BookingHistory(string? status)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            List<Booking> bookingHistory = _unitOfWork.Booking.GetAll(u => u.ApplicationUserId == userId, includeProperties: "ServiceProvider,ServiceProvider.Service").ToList();
+            List<Booking> bookingHistory;
+            if (status != null && status!="All")
+            {
+                bookingHistory = _unitOfWork.Booking.GetAll(u => u.ApplicationUserId == userId, includeProperties: "ServiceProvider,ServiceProvider.Service").Where(u=>u.Status==status).ToList();
+            }
+            else
+            {
+                bookingHistory = _unitOfWork.Booking.GetAll(u => u.ApplicationUserId == userId, includeProperties: "ServiceProvider,ServiceProvider.Service").ToList();
+            }
 
             var serviceProviderIds = bookingHistory.Select(b => b.ServiceProviderId).Distinct().ToList();
 
@@ -87,6 +95,32 @@ namespace SmServiceCommerce.Areas.Customer.Controllers
             TempData["success"] = "Booking created successfully";
             return RedirectToAction("Index", "Home");
 
+        }
+
+        public IActionResult CancelService(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Booking booking = _unitOfWork.Booking.Get(i => i.Id == id);
+            booking.Status = "Cancelled";
+            _unitOfWork.Booking.Update(booking);
+            _unitOfWork.Save();
+            return RedirectToAction(nameof(BookingHistory));
+        }
+
+        public IActionResult CompleteService(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Booking booking = _unitOfWork.Booking.Get(i => i.Id == id);
+            booking.Status = "Completed";
+            _unitOfWork.Booking.Update(booking);
+            _unitOfWork.Save();
+            return RedirectToAction(nameof(BookingHistory));
         }
     }
 }
