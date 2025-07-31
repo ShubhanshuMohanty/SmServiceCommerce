@@ -12,6 +12,7 @@ namespace SmServiceCommerce.DataAccess.Repository.IRepository
         IApplicationUserRepository ApplicationUser { get; }
         IServiceProviderInfoRepository ServiceProviderInfo { get; }
         IBookingRepository Booking { get; }
+        IReviewRepository Review { get; }
         void Save();
     }
 }
