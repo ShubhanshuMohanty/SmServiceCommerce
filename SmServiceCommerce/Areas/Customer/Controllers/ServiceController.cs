@@ -22,16 +22,36 @@ namespace SmServiceCommerce.Areas.Customer.Controllers
         public IActionResult SearchResult(string service, string location)
         {
             List<ApplicationUser> serviceProviderList = _unitOfWork.ApplicationUser.GetAll(includeProperties: "Service").Where(i => i.Service?.ServiceName.ToLower() == service.ToLower() && i.City?.ToLower() == location.ToLower()).ToList();
+            var serviceProviderIds = serviceProviderList.Select(sp => sp.Id).ToList();
+            var serviceProviderData = _unitOfWork.ServiceProviderInfo
+                .GetAll(info => serviceProviderIds.Contains(info.ApplicationUserId), includeProperties: "User")
+                .ToList();
+            //
+            List<ServiceProviderVM> serviceProviderDetailList = serviceProviderList.Select(s=>new ServiceProviderVM
+            {
+                User=s,
+                ServiceProviderInfo = serviceProviderData.FirstOrDefault(sp => sp.ApplicationUserId == s.Id)
+            }).ToList();
+            
+            
             return View(serviceProviderList);
         }
         public IActionResult BookServiceDetail(string id)
         {
             ServiceProviderInfo serviceProviderInfo = _unitOfWork.ServiceProviderInfo.Get(u => u.ApplicationUserId == id, includeProperties: "User,User.Service");
+            List<Review> reviews = _unitOfWork.Review.GetAll(r => r.ServiceProviderId == id, includeProperties: "User").ToList();
+            ServiceProviderWithReview serviceProviderWithReview = new()
+            {
+                serviceProviderInfo = serviceProviderInfo,
+                reviews = reviews,
+                AvgRating=(float)reviews.Average(r => r.Rating),
+                TotalReview = reviews.Count,
+            };
             if (serviceProviderInfo == null)
             {
                 return NotFound();
             }          
-            return View(serviceProviderInfo);
+            return View(serviceProviderWithReview);
         }
 
         public IActionResult BookingHistory(string? status)
@@ -95,6 +115,27 @@ namespace SmServiceCommerce.Areas.Customer.Controllers
             TempData["success"] = "Booking created successfully";
             return RedirectToAction("Index", "Home");
 
+        }
+
+        [HttpPost]
+        public IActionResult Review(Review review)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (review.Rating < 1 || review.Rating > 5)
+            {
+                TempData["error"] = "Rating must be between 1 and 5.";
+                return RedirectToAction("BookingHistory");
+            }
+            if (string.IsNullOrEmpty(review.Comment))
+            {
+                TempData["error"] = "Comment cannot be empty.";
+                return RedirectToAction("BookingHistory");
+            }
+            review.UserId = userId;
+            _unitOfWork.Review.Add(review);
+            _unitOfWork.Save();
+            return RedirectToAction("BookingHistory");
         }
 
         public IActionResult CancelService(int? id)

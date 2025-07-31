@@ -1,5 +1,15 @@
-﻿@model ServiceProviderInfo 
+﻿@model ServiceProviderWithReview
+<style>
+    .fa-star {
+        font-size: 20px;
+        color: gray;
+        cursor: pointer;
+    }
 
+        .fa-star.checked {
+            color: gold;
+        }
+</style>
 <div class="container py-5">
     <!-- Service Info + Booking Form -->
     <div class="row mb-5 g-4">
@@ -7,22 +17,22 @@
         <div class="col-lg-4">
             <div class="neu-card p-4 text-center h-100">
                 <!-- Profile Circle -->
-                <div class="profile-circle-detail">@Model.User?.Name?[0].ToString().ToUpper()</div>
+                <div class="profile-circle-detail">@Model.serviceProviderInfo?.User?.Name?[0].ToString().ToUpper()</div>
 
                 <!-- Name & Profession -->
-                <h3 class="mb-2 fw-bold text-primary">@Model?.User?.Name</h3>
-                <p class="text-muted fs-5 mb-3">@Model?.User?.Service?.ServiceName</p>
+                <h3 class="mb-2 fw-bold text-primary">@Model?.serviceProviderInfo?.User?.Name</h3>
+                <p class="text-muted fs-5 mb-3">@Model?.serviceProviderInfo?.User?.Service?.ServiceName</p>
 
                 <!-- Experience Badge -->
-                <span class="badge-neu d-inline-block mb-3">@Model?.Experience + Years Experience</span>
+                <span class="badge-neu d-inline-block mb-3">@Model?.serviceProviderInfo?.Experience + Years Experience</span>
 
                 <!-- Rating -->
                 <div class="rating-container">
                     <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
                         <span class="star-rating">
-                            <i class="fas fa-star"></i> 4.5
+                            <i class="fas fa-star"></i> @Model?.AvgRating
                         </span>
-                        <small class="text-muted">(135 reviews)</small>
+                        <small class="text-muted">(@Model?.TotalReview reviews)</small>
                     </div>
                 </div>
 
@@ -31,20 +41,20 @@
                     <span class="fw-semibold">
                         <i class="fas fa-rupee-sign me-2 text-success"></i>Service Fee:
                     </span>
-                    <span class="text-success fw-bold fs-5">₹@Model?.ServiceFee</span>
+                    <span class="text-success fw-bold fs-5">₹@Model?.serviceProviderInfo?.ServiceFee</span>
                 </div>
 
                 <div class="info-item d-flex justify-content-between align-items-center">
                     <span class="fw-semibold">
                         <i class="fas fa-phone me-2 text-primary"></i>Phone:
                     </span>
-                    <span class="text-muted">+91 @Model?.User?.PhoneNumber</span>
+                    <span class="text-muted">+91 @Model?.serviceProviderInfo?.User?.PhoneNumber</span>
                 </div>
 
                 <!-- Description -->
                 <div class="mt-4 p-3 neu-card-inset">
                     <p class="text-muted mb-0 lh-lg">
-                        @Model?.Description 
+                        @Model?.serviceProviderInfo?.Description
                     </p>
                 </div>
             </div>
@@ -62,7 +72,7 @@
                             <label class="form-label fw-semibold mb-3">Select Date</label>
                             <input type="date" class="form-control neu-input" name="BookingDate">
                         </div>
-                        <input type="hidden" name="ServiceProviderId" value="@Model?.User?.Id" />
+                        <input type="hidden" name="ServiceProviderId" value="@Model?.serviceProviderInfo?.User?.Id" />
                         <div class="col-md-6">
                             <label class="form-label fw-semibold mb-3">Select Time</label>
                             <input type="time" class="form-control neu-input" name="BookingTime">
@@ -74,7 +84,7 @@
                     </div>
                     <div class="mt-4">
                         <button type="submit" class="btn neu-btn btn-lg w-100 py-3">
-                            <i class="fas fa-calendar-check me-2"></i>Confirm Booking - ₹@Model?.ServiceFee
+                            <i class="fas fa-calendar-check me-2"></i>Confirm Booking - ₹@Model?.serviceProviderInfo?.ServiceFee
                         </button>
                     </div>
                 </form>
@@ -91,45 +101,28 @@
                 </h4>
 
                 <div class="row g-4">
-                    <!-- Review 1 -->
-                    <div class="col-md-6">
-                        <div class="review-card">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <div>
-                                    <h6 class="fw-bold mb-1">Rahul Sharma</h6>
-                                    <small class="text-muted">July 10, 2025</small>
+                    <!-- Review  -->
+                    @foreach(var review in Model.reviews)
+                    {
+                        <div class="col-md-6">
+                            <div class="review-card">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h6 class="fw-bold mb-1">@review.User.Name</h6>
+                                        <small class="text-muted">@review.CreatedAt</small>
+                                    </div>
+                                    <div class="">
+                                        @for (int i = 0; i < review.Rating; i++)
+                                        {
+                                            <i class="fas fa-star text-warning"></i>
+                                        }
+                                    </div>
                                 </div>
-                                <div class="star-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
+                                <p class="mb-0 text-muted"> @review.Comment </p>
                             </div>
-                            <p class="mb-0 text-muted">Great service! Very professional and punctual. Fixed my kitchen sink perfectly.</p>
                         </div>
-                    </div>
+                    }
 
-                    <!-- Review 2 -->
-                    <div class="col-md-6">
-                        <div class="review-card">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <div>
-                                    <h6 class="fw-bold mb-1">Priya Verma</h6>
-                                    <small class="text-muted">June 28, 2025</small>
-                                </div>
-                                <div class="star-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                            </div>
-                            <p class="mb-0 text-muted">Nice behavior and quick service. Will definitely book again for future needs!</p>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Add New Review -->
@@ -138,7 +131,7 @@
                         <h5 class="section-title">
                             <i class="fas fa-pen me-2 text-primary"></i>Leave a Review
                         </h5>
-                        <form>
+                        <form asp-action="Review" method="post">
                             <div class="mb-4">
                                 <label class="form-label fw-semibold mb-3">Your Rating</label>
                                 <div class="star-rating fs-4" style="cursor: pointer;">
@@ -148,9 +141,12 @@
                                     <i class="far fa-star me-1" data-rating="4"></i>
                                     <i class="far fa-star me-1" data-rating="5"></i>
                                 </div>
+                                <input asp-for="Rating" type="hidden" name="Rating" id="Rating" />
+                                
                             </div>
+                            <input type="hidden" name="ServiceProviderId" value="@Model?.serviceProviderInfo?.User?.Id" />
                             <div class="mb-4">
-                                <textarea class="form-control neu-input" rows="4" placeholder="Share your experience with this service..."></textarea>
+                                <textarea asp-for="Comment" class="form-control neu-input" rows="4" name="Comment" placeholder="Share your experience with this service..."></textarea>
                             </div>
                             <button type="submit" class="btn neu-btn px-4 py-2">
                                 <i class="fas fa-paper-plane me-2"></i>Submit Review
@@ -164,6 +160,34 @@
 </div>
 
 
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const stars = document.querySelectorAll(".star-rating .far");
+            const ratingInput = document.getElementById("Rating");
+
+            stars.forEach(star => {
+                star.addEventListener("click", function () {
+                    const value = this.getAttribute("data-rating");
+                    ratingInput.value = value;
+                    console.log("Selected Rating:", value);
+                    stars.forEach(s => s.classList.remove("checked"));
+
+                    let reached = false;
+                    stars.forEach(s => {
+                        if (!reached) {
+                            s.classList.add("checked");
+                        }
+                        if (s === this) {
+                            reached = true;
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+}
 
 
 
