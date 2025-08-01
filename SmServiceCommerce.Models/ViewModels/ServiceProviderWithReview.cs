@@ -12,7 +12,7 @@ namespace SmServiceCommerce.Models.ViewModels
         public List<Review> reviews { get; set; }=new List<Review>();
         public string Comment { get; set; }
         public int Rating { get; set; } = 1;
-        public float AvgRating { get; set; }
+        public float AvgRating { get; set; } = 0;
         public int TotalReview { get; set; }
     }
 }

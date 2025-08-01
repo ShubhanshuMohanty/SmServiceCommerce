@@ -10,5 +10,8 @@ namespace SmServiceCommerce.Models.ViewModels
     {
         public ApplicationUser User { get; set; } = null!;
         public ServiceProviderInfo ServiceProviderInfo { get; set; } = null!;
+
+        public float AvgRating { get; set; }
+        public int TotalReviews { get; set; }
     }
 }
