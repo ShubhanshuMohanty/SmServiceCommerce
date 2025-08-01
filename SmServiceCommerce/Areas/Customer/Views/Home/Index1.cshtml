@@ -1,0 +1,396 @@
+﻿
+<style>
+    /* Custom CSS for Neumorphism and specific styles not covered by Bootstrap */
+    :root {
+        --bs-primary: #3B82F6;
+        --bs-secondary: #10B981;
+        --bs-light-bg: #f0f2f5;
+        --bs-gray-900: #1a202c; /* Approximating Tailwind's gray-900 */
+        --bs-gray-700: #4a5568; /* Approximating Tailwind's gray-700 */
+        --bs-gray-600: #718096; /* Approximating Tailwind's gray-600 */
+        --bs-gray-500: #a0aec0; /* Approximating Tailwind's gray-500 */
+        --bs-gray-400: #cbd5e0; /* Approximating Tailwind's gray-400 */
+    }
+
+    body {
+        background-color: var(--bs-light-bg);
+        font-family: sans-serif; /* Bootstrap's default font-sans */
+    }
+
+    .neumorphic {
+        background: var(--bs-light-bg);
+        box-shadow: 8px 8px 16px #d1d5db, -8px -8px 16px #ffffff;
+        border-radius: 0.5rem; /* Equivalent to Bootstrap's rounded */
+    }
+
+    .neumorphic-inset {
+        background: var(--bs-light-bg);
+        box-shadow: inset 4px 4px 8px #d1d5db, inset -4px -4px 8px #ffffff;
+        border-radius: 0.5rem; /* Equivalent to Bootstrap's rounded */
+    }
+
+    .neumorphic-hover:hover {
+        box-shadow: 12px 12px 24px #d1d5db, -12px -12px 24px #ffffff;
+        transform: translateY(-2px);
+    }
+
+    .rounded-button {
+        border-radius: 8px !important; /* Custom border-radius for buttons */
+    }
+
+    .hero-bg {
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+    }
+
+    .text-primary-custom {
+        color: var(--bs-primary) !important;
+    }
+
+    .text-secondary-custom {
+        color: var(--bs-secondary) !important;
+    }
+
+    /* Specific background opacities */
+    .bg-primary-10 {
+        background-color: rgba(59, 130, 246, 0.1) !important;
+    }
+
+    .bg-secondary-10 {
+        background-color: rgba(16, 185, 129, 0.1) !important;
+    }
+
+    .bg-yellow-500-10 {
+        background-color: rgba(245, 158, 11, 0.1) !important; /* Tailwind yellow-500 */
+    }
+
+    .bg-purple-500-10 {
+        background-color: rgba(168, 85, 247, 0.1) !important; /* Tailwind purple-500 */
+    }
+
+    .bg-green-500-10 {
+        background-color: rgba(34, 197, 94, 0.1) !important; /* Tailwind green-500 */
+    }
+
+    .bg-blue-500-10 {
+        background-color: rgba(59, 130, 246, 0.1) !important; /* Tailwind blue-500 */
+    }
+
+    /* Override Bootstrap's default active/focus states for neumorphic inputs if needed */
+    .neumorphic-inset select:focus,
+    .neumorphic-inset input:focus {
+        box-shadow: none !important;
+        border-color: transparent !important;
+    }
+
+    /* Adjustments for Bootstrap's default spacing if it differs from Tailwind */
+    .mb-6 {
+        margin-bottom: 1.5rem !important;
+    }
+    /* Custom margin to match Tailwind's mb-6 */
+    .mb-8 {
+        margin-bottom: 2rem !important;
+    }
+    /* Custom margin to match Tailwind's mb-8 */
+    .leading-tight {
+        line-height: 1.25 !important;
+    }
+    /* Custom line-height */
+    .leading-relaxed {
+        line-height: 1.625 !important;
+    }
+    /* Custom line-height */
+    /* Style for icon backgrounds */
+    .icon-background {
+        width: 3rem; /* Adjust size as needed */
+        height: 3rem; /* Adjust size as needed */
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem auto; /* Center horizontally and add margin below */
+    }
+
+        .icon-background > i {
+            font-size: 1.5rem; /* Adjust icon size as needed */
+        }
+</style>
+
+
+
+<section class="hero-bg py-5 py-lg-5" style="background-image: url('https://readdy.ai/api/search-image?query=Professional%20service%20workers%20including%20plumbers%20electricians%20and%20handymen%20working%20together%20in%20modern%20clean%20workspace%20with%20tools%20and%20equipment%2C%20bright%20natural%20lighting%2C%20professional%20atmosphere%2C%20high%20quality%20photography%2C%20clean%20background&width=1920&height=1080&seq=hero001&orientation=landscape'); background-size: cover; background-position: center; background-blend-mode: overlay;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center text-lg-start">
+                <h1 class="display-4 fw-bold text-dark mb-6 leading-tight">
+                    Book Professional Services <span class="text-primary-custom">Instantly</span>
+                </h1>
+                <p class="lead text-gray-600 mb-8 leading-relaxed">
+                    Connect with verified professionals for all your home service needs. From plumbing to electrical work, book trusted experts in just a few clicks.
+                </p>
+                <div class="neumorphic p-4 rounded-2xl mb-5 mx-auto mx-lg-0" style="max-width: 700px;">
+                    <div class="row g-3">
+                        <div class="col-12 col-md-4">
+                            <div class="neumorphic-inset rounded-lg p-3">
+                                <select class="form-select bg-transparent border-0 shadow-none text-gray-700">
+                                    <option>Select Service</option>
+                                    <option>Plumbing</option>
+                                    <option>Electrical</option>
+                                    <option>Cleaning</option>
+                                    <option>Handyman</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="neumorphic-inset rounded-lg p-3">
+                                <input type="text" placeholder="Enter your location" class="form-control bg-transparent border-0 shadow-none text-gray-700">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <button class="btn btn-primary w-100 py-3 rounded-button fw-medium text-nowrap">
+                                <i class="fas fa-search me-2"></i>Find Services
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold text-dark mb-4">Popular Services</h2>
+            <p class="lead text-gray-600">Choose from our most requested professional services</p>
+        </div>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <div class="col">
+                <div class="neumorphic neumorphic-hover p-4 rounded-2xl text-center transition-all duration-300">
+                    <div class="width-56-height-56 bg-primary-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4 icon-background">
+                        <i class="fas fa-wrench fs-4 text-primary-custom"></i>
+                    </div>
+                    <h3 class="h5 fw-semibold text-dark mb-3">Plumbing</h3>
+                    <p class="text-gray-600 mb-4">Expert plumbers for repairs, installations, and maintenance</p>
+                    <button class="neumorphic btn btn-light px-4 py-2 text-primary-custom fw-medium rounded-button hover:bg-primary hover:text-white transition-all duration-300 text-nowrap">
+                        Learn More
+                    </button>
+                </div>
+            </div>
+            <div class="col">
+                <div class="neumorphic neumorphic-hover p-4 rounded-2xl text-center transition-all duration-300">
+                    <div class=" icon-background width-56-height-56 bg-secondary-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4">
+                        <i class="fas fa-bolt fs-4 text-secondary-custom"></i>
+                    </div>
+                    <h3 class="h5 fw-semibold text-dark mb-3">Electrical</h3>
+                    <p class="text-gray-600 mb-4">Licensed electricians for all your electrical needs</p>
+                    <button class="neumorphic btn btn-light px-4 py-2 text-secondary-custom fw-medium rounded-button hover:bg-secondary hover:text-white transition-all duration-300 text-nowrap">
+                        Learn More
+                    </button>
+                </div>
+            </div>
+            <div class="col">
+                <div class="neumorphic neumorphic-hover p-4 rounded-2xl text-center transition-all duration-300">
+                    <div class="icon-background width-56-height-56 bg-yellow-500-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4">
+                        <i class="fas fa-broom fs-4 text-warning"></i>
+                    </div>
+                    <h3 class="h5 fw-semibold text-dark mb-3">Cleaning</h3>
+                    <p class="text-gray-600 mb-4">Professional cleaning services for homes and offices</p>
+                    <button class="neumorphic btn btn-light px-4 py-2 text-warning fw-medium rounded-button hover:bg-warning hover:text-white transition-all duration-300 text-nowrap">
+                        Learn More
+                    </button>
+                </div>
+            </div>
+            <div class="col">
+                <div class="neumorphic neumorphic-hover p-4 rounded-2xl text-center transition-all duration-300">
+                    <div class="icon-background width-56-height-56 bg-purple-500-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4">
+                        <i class="fas fa-tools fs-4 text-purple-600-custom"></i>
+                    </div>
+                    <h3 class="h5 fw-semibold text-dark mb-3">Handyman</h3>
+                    <p class="text-gray-600 mb-4">Skilled handymen for repairs and home improvements</p>
+                    <button class="neumorphic btn btn-light px-4 py-2 text-purple-600-custom fw-medium rounded-button hover:bg-purple-600 hover:text-white transition-all duration-300 text-nowrap">
+                        Learn More
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-gradient-to-br from-blue-50 to-green-50">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold text-dark mb-4">How It Works</h2>
+            <p class="lead text-gray-600">Book professional services in three simple steps</p>
+        </div>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="neumorphic p-4 rounded-2xl text-center">
+                    <div class="icon-background width-80-height-80 bg-primary-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4">
+                        <i class="fas fa-search fs-3 text-primary-custom"></i>
+                    </div>
+                    <h3 class="h4 fw-semibold text-dark mb-4">1. Choose Service</h3>
+                    <p class="text-gray-600">Browse our wide range of professional services and select what you need</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="neumorphic p-4 rounded-2xl text-center">
+                    <div class="icon-background width-80-height-80 bg-secondary-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4">
+                        <i class="fas fa-user-check fs-3 text-secondary-custom"></i>
+                    </div>
+                    <h3 class="h4 fw-semibold text-dark mb-4">2. Select Provider</h3>
+                    <p class="text-gray-600">Choose from verified professionals based on ratings and availability</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="neumorphic p-4 rounded-2xl text-center">
+                    <div class="icon-background width-80-height-80 bg-yellow-500-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4">
+                        <i class="fas fa-calendar-check fs-3 text-warning"></i>
+                    </div>
+                    <h3 class="h4 fw-semibold text-dark mb-4">3. Book & Pay</h3>
+                    <p class="text-gray-600">Schedule your appointment and pay securely online</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold text-dark mb-4">Featured Professionals</h2>
+            <p class="lead text-gray-600">Meet our top-rated service providers</p>
+        </div>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <div class="col">
+                <div class="neumorphic neumorphic-hover p-4 rounded-2xl text-center transition-all duration-300">
+                    <img src="https://readdy.ai/api/search-image?query=Professional%20male%20plumber%20in%20uniform%20smiling%20confidently%2C%20clean%20professional%20headshot%2C%20friendly%20expression%2C%20high%20quality%20portrait%20photography&width=200&height=200&seq=prof001&orientation=squarish" alt="Professional" class="img-fluid rounded-circle mb-3 object-cover object-top" style="width: 80px; height: 80px;">
+                    <h4 class="h5 fw-semibold text-dark mb-2">Michael Johnson</h4>
+                    <p class="text-gray-600 mb-3">Master Plumber</p>
+                    <div class="d-flex justify-content-center align-items-center mb-2">
+                        <div class="d-flex text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-600 ms-2">4.9</span>
+                    </div>
+                    <p class="small text-gray-500">247+ jobs completed</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="neumorphic neumorphic-hover p-4 rounded-2xl text-center transition-all duration-300">
+                    <img src="https://readdy.ai/api/search-image?query=Professional%20female%20electrician%20in%20work%20uniform%20smiling%20confidently%2C%20clean%20professional%20headshot%2C%20friendly%20expression%2C%20high%20quality%20portrait%20photography&width=200&height=200&seq=prof002&orientation=squarish" alt="Professional" class="img-fluid rounded-circle mb-3 object-cover object-top" style="width: 80px; height: 80px;">
+                    <h4 class="h5 fw-semibold text-dark mb-2">Sarah Williams</h4>
+                    <p class="text-gray-600 mb-3">Licensed Electrician</p>
+                    <div class="d-flex justify-content-center align-items-center mb-2">
+                        <div class="d-flex text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-600 ms-2">4.8</span>
+                    </div>
+                    <p class="small text-gray-500">189+ jobs completed</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="neumorphic neumorphic-hover p-4 rounded-2xl text-center transition-all duration-300">
+                    <img src="https://readdy.ai/api/search-image?query=Professional%20male%20handyman%20in%20work%20clothes%20smiling%20confidently%2C%20clean%20professional%20headshot%2C%20friendly%20expression%2C%20high%20quality%20portrait%20photography&width=200&height=200&seq=prof003&orientation=squarish" alt="Professional" class="img-fluid rounded-circle mb-3 object-cover object-top" style="width: 80px; height: 80px;">
+                    <h4 class="h5 fw-semibold text-dark mb-2">David Chen</h4>
+                    <p class="text-gray-600 mb-3">Expert Handyman</p>
+                    <div class="d-flex justify-content-center align-items-center mb-2">
+                        <div class="d-flex text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-600 ms-2">4.9</span>
+                    </div>
+                    <p class="small text-gray-500">312+ jobs completed</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="neumorphic neumorphic-hover p-4 rounded-2xl text-center transition-all duration-300">
+                    <img src="https://readdy.ai/api/search-image?query=Professional%20female%20cleaning%20service%20worker%20in%20uniform%20smiling%20confidently%2C%20clean%20professional%20headshot%2C%20friendly%20expression%2C%20high%20quality%20portrait%20photography&width=200&height=200&seq=prof004&orientation=squarish" alt="Professional" class="img-fluid rounded-circle mb-3 object-cover object-top" style="width: 80px; height: 80px;">
+                    <h4 class="h5 fw-semibold text-dark mb-2">Emma Rodriguez</h4>
+                    <p class="text-gray-600 mb-3">Cleaning Specialist</p>
+                    <div class="d-flex justify-content-center align-items-center mb-2">
+                        <div class="d-flex text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-600 ms-2">4.7</span>
+                    </div>
+                    <p class="small text-gray-500">156+ jobs completed</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-gradient-to-br from-green-50 to-blue-50">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold text-dark mb-4">Why Choose ServiceHub</h2>
+            <p class="lead text-gray-600">Experience the difference with our premium service platform</p>
+        </div>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <div class="col">
+                <div class="neumorphic p-4 rounded-2xl text-center">
+                    <div class=" icon-background width-56-height-56 bg-green-500-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4">
+                        <i class="fas fa-check-circle fs-4 text-success"></i>
+                    </div>
+                    <h3 class="h5 fw-semibold text-dark mb-4">Verified Professionals</h3>
+                    <p class="text-gray-600">All service providers are thoroughly vetted and background checked</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="neumorphic p-4 rounded-2xl text-center">
+                    <div class="icon-background width-56-height-56 bg-yellow-500-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4">
+                        <i class="fas fa-bolt fs-4 text-warning"></i>
+                    </div>
+                    <h3 class="h5 fw-semibold text-dark mb-4">Instant Booking</h3>
+                    <p class="text-gray-600">Book services instantly with real-time availability</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="neumorphic p-4 rounded-2xl text-center">
+                    <div class="icon-background width-56-height-56 bg-blue-500-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt fs-4 text-primary-custom"></i>
+                    </div>
+                    <h3 class="h5 fw-semibold text-dark mb-4">Secure Payments</h3>
+                    <p class="text-gray-600">Safe and secure payment processing with multiple options</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="neumorphic p-4 rounded-2xl text-center">
+                    <div class="icon-background width-56-height-56 bg-purple-500-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4">
+                        <i class="fas fa-headset fs-4 text-purple-600-custom"></i>
+                    </div>
+                    <h3 class="h5 fw-semibold text-dark mb-4">24/7 Support</h3>
+                    <p class="text-gray-600">Round-the-clock customer support for all your needs</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-gradient-to-r from-primary to-secondary">
+    <div class="container text-center">
+        <h2 class="display-4 fw-bold text-white mb-4">Discover Our Professional Services</h2>
+        <p class="lead text-white-50 mb-4">Join thousands of satisfied customers who trust ServiceHub for their home service needs</p>
+        <button class="neumorphic btn btn-light px-5 py-3 fs-5 fw-semibold rounded-button hover:bg-light transition-all duration-300 text-nowrap">
+            <i class="fas fa-info-circle me-2"></i>Learn More
+        </button>
+    </div>
+</section>
+

@@ -1,24 +1,29 @@
-﻿@model List<ApplicationUser>
+﻿@model List<ServiceProviderVM>
 <div class="container py-5">
     <h2 class="mb-4">Available Services</h2>
 
     <!-- Filter Options -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <select class="form-select">
-                <option selected>Filter by Price</option>
-                <option value="low">Low to High</option>
-                <option value="high">High to Low</option>
-            </select>
+    <form method="get" asp-controller="Service" asp-action="SearchResult">
+        <input type="hidden" name="service" value="@ViewBag.Service" />
+        <input type="hidden" name="location" value="@ViewBag.Location" />
+
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <select class="form-select" name="priceOrder" onchange="this.form.submit()">
+                    <option selected disabled>Filter by Price</option>
+                    <option value="low">Low to High</option>
+                    <option value="high">High to Low</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" name="ratingOrder" onchange="this.form.submit()">
+                    <option selected disabled>Filter by Rating</option>
+                    <option value="high">High to Low</option>
+                    <option value="low">Low to High</option>
+                </select>
+            </div>
         </div>
-        <div class="col-md-3">
-            <select class="form-select">
-                <option selected>Filter by Rating</option>
-                <option value="high">High to Low</option>
-                <option value="low">Low to High</option>
-            </select>
-        </div>
-    </div>
+    </form>
 
     <!-- Card List -->
     <div class="row g-4">
@@ -28,22 +33,22 @@
             <div class="col-md-4">
                 <div class="card service-card p-4">
                     <div class="d-flex align-items-center mb-3">
-                        <div class="profile-circle me-3">A</div>
+                        <div class="profile-circle me-3">@ser?.User?.Name[0]</div>
                         <div>
-                            <h5 class="mb-0 fw-semibold">@ser.Name</h5>
-                            <small class="text-muted">@ser?.Service?.ServiceName • 5 yrs experience</small>
+                            <h5 class="mb-0 fw-semibold">@ser?.User?.Name</h5>
+                            <small class="text-muted">@ser?.User?.Service?.ServiceName • @ser?.ServiceProviderInfo.Experience yrs experience</small>
                         </div>
                     </div>
                     <div class="mb-2">
                         <span class="info-label"><i class="fas fa-star me-1 text-warning"></i>Rating:</span>
-                        <span class="rating">4.5</span> <small class="text-muted">(120 reviews)</small>
+                        <span class="rating">@ser?.AvgRating</span> <small class="text-muted">(@ser?.TotalReviews reviews)</small>
                     </div>
                     <div class="mb-3">
                         <span class="info-label"><i class="fas fa-rupee-sign me-1 text-dark"></i>Fee:</span>
-                        <span class="fw-semibold text-success">499</span>
+                        <span class="fw-semibold text-success">@ser?.ServiceProviderInfo?.ServiceFee</span>
                     </div>
                     <button class="btn book-btn w-100">
-                        <a asp-controller="Service" asp-action="BookServiceDetail" asp-route-id="@ser?.Id">
+                        <a asp-controller="Service" asp-action="BookServiceDetail" asp-route-id="@ser?.User.Id">
                         <i class="fas fa-calendar-check me-2"></i>Book Service
                         </a>
                     </button>

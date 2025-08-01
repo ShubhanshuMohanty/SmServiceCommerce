@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SmServiceCommerce.DataAccess.Repository.IRepository;
 using SmServiceCommerce.Models;
 using SmServiceCommerce.Models.ViewModels;
+using System.Linq;
 using System.Security.Claims;
 
 namespace SmServiceCommerce.Areas.Customer.Controllers
@@ -19,23 +20,54 @@ namespace SmServiceCommerce.Areas.Customer.Controllers
         {
             return View();
         }
-        public IActionResult SearchResult(string service, string location)
+        public IActionResult SearchResult(string service, string location, string priceOrder, string ratingOrder)
         {
-            List<ApplicationUser> serviceProviderList = _unitOfWork.ApplicationUser.GetAll(includeProperties: "Service").Where(i => i.Service?.ServiceName.ToLower() == service.ToLower() && i.City?.ToLower() == location.ToLower()).ToList();
+            ViewBag.Service = service;
+            ViewBag.Location = location;
+
+            var serviceProviderList = _unitOfWork.ApplicationUser
+                .GetAll(includeProperties: "Service")
+                .Where(i => i.Service?.ServiceName.ToLower() == service.ToLower()
+                         && i.City?.ToLower() == location.ToLower())
+                .ToList();
+
             var serviceProviderIds = serviceProviderList.Select(sp => sp.Id).ToList();
+
             var serviceProviderData = _unitOfWork.ServiceProviderInfo
                 .GetAll(info => serviceProviderIds.Contains(info.ApplicationUserId), includeProperties: "User")
                 .ToList();
-            //
-            List<ServiceProviderVM> serviceProviderDetailList = serviceProviderList.Select(s=>new ServiceProviderVM
+
+            var serviceProviderDetailList = serviceProviderList.Select(s =>
             {
-                User=s,
-                ServiceProviderInfo = serviceProviderData.FirstOrDefault(sp => sp.ApplicationUserId == s.Id)
+                var reviews = _unitOfWork.Review.GetAll(i => i.ServiceProviderId == s.Id).ToList();
+
+                return new ServiceProviderVM
+                {
+                    User = s,
+                    ServiceProviderInfo = serviceProviderData.FirstOrDefault(sp => sp.ApplicationUserId == s.Id),
+                    AvgRating = reviews.Any() ? (float)reviews.Average(r => r.Rating) : 0,
+                    TotalReviews = reviews.Count
+                };
             }).ToList();
-            
-            
-            return View(serviceProviderList);
+
+            // 🔽 Apply sorting
+            if (!string.IsNullOrEmpty(ratingOrder))
+            {
+                serviceProviderDetailList = ratingOrder == "high"
+                    ? serviceProviderDetailList.OrderByDescending(x => x.AvgRating).ToList()
+                    : serviceProviderDetailList.OrderBy(x => x.AvgRating).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(priceOrder))
+            {
+                serviceProviderDetailList = priceOrder == "high"
+                    ? serviceProviderDetailList.OrderByDescending(x => x.ServiceProviderInfo?.ServiceFee ?? 0).ToList()
+                    : serviceProviderDetailList.OrderBy(x => x.ServiceProviderInfo?.ServiceFee ?? 0).ToList();
+            }
+
+            return View(serviceProviderDetailList);
         }
+
         public IActionResult BookServiceDetail(string id)
         {
             ServiceProviderInfo serviceProviderInfo = _unitOfWork.ServiceProviderInfo.Get(u => u.ApplicationUserId == id, includeProperties: "User,User.Service");
@@ -44,7 +76,7 @@ namespace SmServiceCommerce.Areas.Customer.Controllers
             {
                 serviceProviderInfo = serviceProviderInfo,
                 reviews = reviews,
-                AvgRating=(float)reviews.Average(r => r.Rating),
+                AvgRating= reviews.Any() ? (float)reviews.Average(r => r.Rating):0,
                 TotalReview = reviews.Count,
             };
             if (serviceProviderInfo == null)
