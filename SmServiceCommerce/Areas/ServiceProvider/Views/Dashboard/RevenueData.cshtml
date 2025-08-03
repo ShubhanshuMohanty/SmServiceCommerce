@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2>Dashboard</h2>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="row mt-4">
+    <!-- Bar Chart -->
+    <div class="col-md-6">
+        <div class="card shadow-sm p-3">
+            <h5 class="text-center mb-3">Bookings in Last 7 Days</h5>
+            <canvas id="bookingBarChart" height="300"></canvas>
+        </div>
+    </div>
+
+    <!-- Pie Chart -->
+    <div class="col-md-6">
+        <div class="card shadow-sm p-3">
+            <h5 class="text-center mb-3">Booking Status Summary</h5>
+            <canvas id="bookingPieChart" height="300"></canvas>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Bar Chart Data (Recent 7 days)
+        const barData = @Html.Raw(Json.Serialize(ViewBag.BookingChartData));
+        const ctxBar = document.getElementById('bookingBarChart').getContext('2d');
+
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: barData.map(b => b.date),
+                datasets: [{
+                    label: 'Bookings',
+                    data: barData.map(b => b.count),
+                    backgroundColor: '#007bff',
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        precision: 0,
+                        title: {
+                            display: true,
+                            text: 'Bookings'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Pie Chart Data (Status)
+        const pieData = @Html.Raw(Json.Serialize(ViewBag.StatusPieData));
+        const ctxPie = document.getElementById('bookingPieChart').getContext('2d');
+
+        new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: pieData.map(p => p.status),
+                datasets: [{
+                    data: pieData.map(p => p.count),
+                    backgroundColor: ['#dc3545', '#007bff', '#28a745','#ffc107'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+            console.log("BarData:", @Html.Raw(Json.Serialize(ViewBag.BookingChartData)));
+        console.log("PieData:", @Html.Raw(Json.Serialize(ViewBag.StatusPieData)));
+    </script>
+
+}

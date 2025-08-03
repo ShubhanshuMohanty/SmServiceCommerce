@@ -1,13 +1,13 @@
 ﻿<div class="sidebar">
     <div class="dash-nav-section">
-        <a asp-controller="ServiceProvider" asp-action="Dashboard" class="dash-nav-link">
+        <a asp-area="ServiceProvider" asp-controller="Dashboard" asp-action="Index" class="dash-nav-link">
             <i class="fas fa-tachometer-alt"></i> Dashboard
         </a>
-        <a asp-controller="Booking" asp-action="Index" class="dash-nav-link">
-            <i class="fas fa-calendar-check"></i> Bookings
+        <a asp-area="ServiceProvider" asp-controller="Dashboard" asp-action="Bookingdata" class="dash-nav-link">
+            <i class="fas fa-calendar-check"></i> Bookings Data
         </a>
-        <a asp-controller="Revenue" asp-action="Index" class="dash-nav-link">
-            <i class="fas fa-chart-line"></i> Revenue
+        <a asp-area="ServiceProvider" asp-controller="Dashboard" asp-action="RevenueData" class="dash-nav-link">
+            <i class="fas fa-chart-line"></i> Revenue Data
         </a>
     </div>
 </div>

@@ -28,6 +28,7 @@ namespace SmServiceCommerce.Models
 
         [MaxLength(500)]
         public string? Notes { get; set; } 
+
         [Required]
         [MaxLength(50)]
         public string Status { get; set; } = "Pending"; // e.g. Pending, Confirmed, Cancelled
