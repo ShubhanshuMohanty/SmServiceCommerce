@@ -28,8 +28,10 @@ namespace SmServiceCommerce.Areas.ServiceProvider.Controllers
         }
         public IActionResult RevenueData()
         {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var allBookings = _unitOfWork.Booking.GetAll().ToList();
+            var allBookings = _unitOfWork.Booking.GetAll(u=>u.ServiceProviderId==userId, includeProperties: "ServiceProvider").ToList();
 
             // --- Bar Chart Data: Last 7 Days ---
             var today = DateOnly.FromDateTime(DateTime.Today);
